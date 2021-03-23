@@ -7,55 +7,57 @@
     </head>
     <body>
 
-    <div>
-        <div id="form_botao">
-            <form>
-                <label for="frase">Frase:</label>
-                <input type="text" id="frase"/>
-                <button type="submit" onclick="Sintaxe()">Enviar frase</button>
-            </form>
+        <div>
+            <div id="form_botao">
+                <form>
+                    <label for="frase">Frase:</label>
+                    <input type="text" id="frase" required="required"/>
 
-       
+                    <input type="button" onclick="enviar()" value="Enviar"></input>
+
+                    <button type="reset">Reset</button>
+
+                </form>
+
+            
+            </div>
+
+            <div id="resultados"> 
+                <p id="sujeito"></p>
+                <p id="predicado"> </p>
+            </div>
         </div>
 
-        <div id="resultado">
-            <p id="sujeito">Sujeito:</p>
-            <p id="predicado">Predicado:</p>
-        </div>
-    </div>
+        <script type="text/javascript">
 
-		<script type="text/javascript">
+        var sujeito = " ";
+        var predicado = " ";
 
-        var sujeito;
-        var predicado;
-
-        var sujeitoEl = document.getElementById("sujeito");
-        var predicEl = document.getElementById("predicado");
+        var resultado = document.getElementById("resultados");
 
         var frase = document.getElementById("frase");
 
+        var palavras;
 
+        var sujeitoEl = document.getElementById("sujeito");
+        sujeitoEl.innerHTML = "Sujeito: " + sujeito;
+        var predicadoEl = document.getElementById("predicado");
+        predicadoEl.innerHTML = "Predicado: " + sujeito;
 
         //Função principal
-        function Sintaxe(){
+        function enviar(){
+            palavras = array (frase.value);
 
-            var palavras = array (frase.value);
-
-            //teste
-            for(var i = 0; i < palavras.length; i++){
-                alert(palavras[i]);
-            }
-            
             plural(palavras);
             verbal(palavras);
             inexistente(palavras);
 
-            alert ("Sujeito: " + sujeito);
-            alert ("Predicado: " + predicado);
-
+            sujeitoEl.innerHTML = "Sujeito: " + sujeito;
+            predicadoEl.innerHTML = "Predicado: " + predicado;
         }
 
-        //funcionando
+
+
         function array(string){
             var frase = string;
             var palavras = [];
@@ -75,7 +77,6 @@
             return palavras;
         }
 
-        //funcionando
         function plural(palavras){
             /*
             vai receber esse array e verificar se alguma palavra terminar com "am" e salvar esse indice pois pode ser um verbo na 3ª pessoa do plural
@@ -104,7 +105,6 @@
             }
         }
 
-        //funcionando
         function verbal(palavras){
             /*
             Função 3: loop passando por todos, se alguma das palavras for um verbo daqueles não-significarivos, então o predicado é nominal, se não é ou verbal ou verbo-nominal
@@ -131,7 +131,6 @@
             }
         }
 
-        //não feito
         function inexistente(palavras){
             /*
             Funçao 4: loop passando pelo indice 0 pra verificar se tem um verbo com sujeito inexistence
@@ -153,9 +152,6 @@
                 sujeito = "inexistente";
             } 
         }
-
-
-
 
         </script>
 
