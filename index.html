@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Sujeito e predicado</title>
+        <style> </style>
+    </head>
+    <body>
+
+    <div>
+        <div id="form_botao">
+            <form>
+                <label for="frase">Frase:</label>
+                <input type="text" id="frase"/>
+                <button type="submit" onclick="Sintaxe()">Enviar frase</button>
+            </form>
+
+       
+        </div>
+
+        <div id="resultado">
+            <p id="sujeito">Sujeito:</p>
+            <p id="predicado">Predicado:</p>
+        </div>
+    </div>
+
+		<script type="text/javascript">
+
+        var sujeito;
+        var predicado;
+
+        var sujeitoEl = document.getElementById("sujeito");
+        var predicEl = document.getElementById("predicado");
+
+        var frase = document.getElementById("frase");
+
+
+
+        //Função principal
+        function Sintaxe(){
+
+            var palavras = array (frase.value);
+
+            //teste
+            for(var i = 0; i < palavras.length; i++){
+                alert(palavras[i]);
+            }
+            
+            plural(palavras);
+            verbal(palavras);
+            inexistente(palavras);
+
+            alert ("Sujeito: " + sujeito);
+            alert ("Predicado: " + predicado);
+
+        }
+
+        //funcionando
+        function array(string){
+            var frase = string;
+            var palavras = [];
+
+            var j = 0;
+            palavras[j] = frase.charAt(0).toLowerCase();
+            for(var i = 1; i < frase.length; i++){
+                if(frase.charAt(i) === " "){
+                    j++;
+                    i++;
+                    palavras[j] = "";
+                } 
+                console.log(palavras[1]);
+                palavras[j] += frase.charAt(i).toLowerCase();
+                
+            }
+            return palavras;
+        }
+
+        //funcionando
+        function plural(palavras){
+            /*
+            vai receber esse array e verificar se alguma palavra terminar com "am" e salvar esse indice pois pode ser um verbo na 3ª pessoa do plural
+                se o caracter length-2 e length-1 for, respectivamente 'a' e 'm' salva o indice dessa palavra
+                Iniciar essa variavel verboPlural como null se for != null então:
+                    Se esse indice for o 0 então (provavelmente) é um sujeito indeterminado
+                    Se não o sujeito é (provavelmente) composto.
+                Se continuar null então é ou oculto ou simples
+            */
+            
+            var verboPlural;
+
+            for(var i = 0; i < palavras.length; i++){
+                if (palavras[i].charAt(palavras[i].length-1) === 'm' &&
+                    palavras[i].charAt(palavras[i].length-2) === 'a') {
+                    verboPlural = i;
+                }
+            }
+
+            if(verboPlural === 0){
+                sujeito = "indeterminado";
+            } else if (verboPlural >= 3){
+                sujeito = "composto";
+            } else {
+                sujeito = "simples";
+            }
+        }
+
+        //funcionando
+        function verbal(palavras){
+            /*
+            Função 3: loop passando por todos, se alguma das palavras for um verbo daqueles não-significarivos, então o predicado é nominal, se não é ou verbal ou verbo-nominal
+                fazer um array com essas palavras la no inicio e comparar cada uma das palavras com essas.
+                se alguma for igual então é (provalvelmente) predicado nominal
+                se não é (provavelmente) predicado verbal
+            */
+            var verbosLigacao = ["é","foi","são","sou","foram","está","estou","estão","parece","pareço","parecem","fico","fica","ficam","permanecem","permaneço","permanece"];
+
+            var verbo = false;
+
+            for (var i = 0; i < palavras.length; i++){
+                for(var j = 0; j < verbosLigacao.length; j++){
+                    if(palavras[i] === verbosLigacao[j] ){
+                        verbo = true;
+                    }
+                }
+            }
+            if(verbo === true){
+                predicado = "nominal";
+            } else if (verbo === false) {
+                predicado = "verbal";
+
+            }
+        }
+
+        //não feito
+        function inexistente(palavras){
+            /*
+            Funçao 4: loop passando pelo indice 0 pra verificar se tem um verbo com sujeito inexistence
+                fazer um array com essas palavras no inicio assim como os não-signicativos
+                se tiver então o sujeito é (provavelmente) inexistente
+            */
+            var inexistentes = ["há","faz","havia","fazia","choveu","chove","chovia","neva","nevou","nevava"];
+
+            var verbo = false;
+
+            for (var i = 0; i < palavras.length; i++){
+                for(var j = 0; j < inexistentes.length; j++){
+                    if(palavras[i] === inexistentes[j]){
+                        verbo = true;
+                    }
+                }
+            }
+            if(verbo === true){
+                sujeito = "inexistente";
+            } 
+        }
+
+
+
+
+        </script>
+
+    </body>
+</html>
