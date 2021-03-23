@@ -4,15 +4,15 @@
         <meta charset="utf-8">
         <title>Sujeito e predicado</title>
         <style> 
-        input, label, button {
-            background-color: #1d1d1d;
-            border-color: white;
-            color: white;
-        }
-        html {
-            background-color: #1d1d1d;
-            color: white;
-        }
+            input, label, button {
+                background-color: #1d1d1d;
+                border-color: white;
+                color: white;
+            }
+            html {
+                background-color: #1d1d1d;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -25,7 +25,8 @@
 
                     <input type="button" onclick="enviar()" value="Enviar"></input>
 
-                    <button type="reset">Reset</button>
+                    <input type="button" onclick="Reset()" value="reset"></input>
+
 
                 </form>
 
@@ -54,19 +55,32 @@
         var predicadoEl = document.getElementById("predicado");
         predicadoEl.innerHTML = "Predicado: " + sujeito;
 
-        //Função principal
-        function enviar(){
-            palavras = array (frase.value);
+        //Função reset
+        function Reset() {
+            frase.value = "";
 
-            plural(palavras);
-            verbal(palavras);
-            inexistente(palavras);
+            var sujeito = " ";
+            var predicado = " ";
 
             sujeitoEl.innerHTML = "Sujeito: " + sujeito;
             predicadoEl.innerHTML = "Predicado: " + predicado;
+
         }
 
+        //Função principal
+        function enviar(){
+            if (frase.value != ""){
+                palavras = array (frase.value);
 
+                plural(palavras);
+                verbal(palavras);
+                inexistente(palavras);
+
+                sujeitoEl.innerHTML = "Sujeito: " + sujeito;
+                predicadoEl.innerHTML = "Predicado: " + predicado;
+            } 
+
+        }
 
         function array(string){
             var frase = string;
@@ -80,7 +94,6 @@
                     i++;
                     palavras[j] = "";
                 } 
-                console.log(palavras[1]);
                 palavras[j] += frase.charAt(i).toLowerCase();
                 
             }
@@ -108,11 +121,17 @@
 
             if(verboPlural === 0){
                 sujeito = "indeterminado";
-            } else if (verboPlural >= 3){
-                sujeito = "composto";
             } else {
                 sujeito = "simples";
+
+                for (var i = 0;i <= 6; i++){
+                    if(palavras[i] === "e"){
+                        sujeito = "composto";
+                    }
+
+                }
             }
+                
         }
 
         function verbal(palavras){
@@ -136,7 +155,7 @@
             if(verbo === true){
                 predicado = "nominal";
             } else if (verbo === false) {
-                predicado = "verbal";
+                predicado = "verbal ou verbo-nominal";
 
             }
         }
